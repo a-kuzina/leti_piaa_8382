@@ -1,0 +1,12 @@
+10
+a e
+a b 2
+b a 2
+a c 3
+c a 3
+b e 4
+e b 4
+c e 2
+e c 2
+b c 4
+c b 4
