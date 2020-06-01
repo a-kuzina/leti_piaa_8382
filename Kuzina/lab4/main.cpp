@@ -147,7 +147,7 @@ void Shift(string& pattern, string& text) {
 int main() {
 	string pattern;
 	string text;
-	output = 0; //If = 1 there will be a detailed conclusion of the course of the decision. if = 0 there will only be an answer
+	output = 1; //If = 1 there will be a detailed conclusion of the course of the decision. if = 0 there will only be an answer
 	if (output) { 
 		cout << "Enter first text, then press enter-button and enter second text\n"; }
 	cin  >>  pattern >> text;//Input
