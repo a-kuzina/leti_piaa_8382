@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 int output = 0;
 
@@ -12,10 +13,32 @@ int* prefix(string& text) {
 
 	for (int i = 1; i < text.length(); i++){ //for each string elem:
 		int tmpLen = pi[i - 1]; //current suffix length = prefix function of the previous element
-		while (tmpLen > 0 && text[tmpLen] != text[i])
+		if (output) { 
+			cout << "\n  Step " << i << ":"; }
+		if (output) {
+			cout << "\n\tWatching text[" << i << "] value => " << text[i] << "; current prefix length = " << tmpLen << "\n";
+		}
+		while (tmpLen > 0 && text[tmpLen] != text[i]){
+		    if (output) {
+				cout << "\t  text[" << tmpLen << "] value => " << text[tmpLen] << " != text[" << i << "] value => " << text[i] << "\n";
+			}
 			tmpLen = pi[tmpLen - 1]; //can’t increase the current suffix - go to the suffix of shorter length
-		if (text[tmpLen] == text[i])
+			if (output) { 
+				cout << "\t    Can't expend previous prefix, new prefix length = " << tmpLen << "\n"; }
+			
+		}	
+		if (text[tmpLen] == text[i]){
+		    if (output) {
+				cout << "\t  text[" << tmpLen << "] value => " << text[tmpLen] << " == text[" << i << "] value => " << text[i] << "\n";
+			}
+			if (output) { 
+				cout << "\t    Expend previous prefix, new prefix length = " << tmpLen + 1 << "\n"; }
 			tmpLen++; //can increase the current suffix - the elements does match
+			
+		}
+		if (output) {
+			cout << "\tPrefix for text[" << i << "] value => " << text[i] << " = " << tmpLen << "\n";
+		}
 		pi[i] = tmpLen; //prefix function for the current item
 	}
 
@@ -31,6 +54,7 @@ void Pattern(string& pattern, string& text) {
 	int* pi = prefix(pattern); //prefix function values for pattern
 	int n = text.length();
 	int pLen = pattern.length();
+	string answ = "";
 
 	if (pLen > n) {
 		cout << -1;
@@ -69,19 +93,23 @@ void Pattern(string& pattern, string& text) {
 			cout << "\tPrefix for text[" << i << "] value => " << text[i] << " = " << tmpLen << "\n";
 		}
 		if (tmpLen == pLen) {//the suffix length macth with the length of the pattern
+	
 			if (output) { 
 				cout << "\nFind a pattern in the text at "; }
 			if (test > 0 && !output) cout << ",";
+			if (test > 0 ) answ.push_back(',');
 			test++;
 			cout <<  i - tmpLen + 1;// the occurrence of the pattern in the text was found
+			answ = answ + to_string(i - tmpLen + 1);
 			if (output) {
 				cout << " position\n"; }
 		}
 	}
+	cout << answ << "\n";
 	if (test == 0) {
 		if (output) { 
 			cout << "There is on pattern in the next!\n"; }
-		else cout << -1;//No occurrence of the pattern in the text was found
+		cout << -1;//No occurrence of the pattern in the text was found
 	}
 }
 
@@ -135,12 +163,13 @@ void Shift(string& pattern, string& text) {
 				cout << "\nSecond string IS the first string shift! Shift = "; }
 			cout << i-	textLength  + 1;  //found cyclic first string shift
 			if (output) cout << "\n";
+			cout << i-	textLength  + 1 << "\n";
 			return;
 		}
 	}
 	if (output) { 
 		cout << "\nSecond string ISN'T the first string shift!\n"; }
-	else cout << -1; //the second string is not a shift of the first string
+	cout << -1; //the second string is not a shift of the first string
 }
 
 
@@ -154,7 +183,7 @@ int main() {
 
 	//You can use only one or both functions at once
 	Pattern(pattern, text); //finds all occurrences of the first row in the second
-	//Shift(pattern, text); //checks if the second line is a shift of the first
+	Shift(pattern, text); //checks if the second line is a shift of the first
 	 
 
 	return 0;
